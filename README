@@ -1,0 +1,30 @@
+This is the README for the Cortex-M3 (CM3) firmware for power management
+on Texas Instruments' AM33XX series of SoCs.
+
+AM33XX integrates a Cortex-M3 core to manage the entry/exit of various
+standy-by and deep-sleep mode. More info on this is present in the
+AM335X Techinal Reference Manual (TRM) available @ www.ti.com
+
+DOCUMENTATION:
+
+ - The CM3 firmware design document can be found under the
+   Documentation/ folder. SA_PM_Firmware.pdf is the best place to start.
+
+ - Most of the diagrams used in the pdf were created using
+   Dia, a GTK+ based digram creation program. The original
+   *.dia files are also available under Documentation/
+
+ - For more technical detailis refer to the TRM on the TI website.
+
+COMPILING the firmare:
+
+ - Right now a simple shell script is used for compiling the firmware.
+   So, a GNU/Linux build environment with the Arago toolchain is a must.
+   If these prerequisites are met, invoke the script 'build.sh' present
+   under src/. This will generate the binary and elf version of the firmware.
+
+ - Pre-compiled versions of these are available under bin/.
+
+ - Note: A Makefile based build system is under development and most
+   likely will be available in the next major update.
+
