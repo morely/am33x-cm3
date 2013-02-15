@@ -85,6 +85,7 @@ int interconnect_modules_enable(void);
 int interconnect_modules_disable(void);
 int essential_modules_disable(void);
 int essential_modules_enable(void);
+int essential_modules_enable_standby(void);
 void mpu_disable(void);
 void mpu_enable(void);
 void clkdm_sleep(void);
@@ -121,6 +122,7 @@ int enable_master_oscillator(void);
 
 void configure_deepsleep_count(int ds_count);
 void configure_wake_sources(int wake_sources,int mod_check);
+void configure_standby_wake_sources(int wake_sources, int mod_check);
 void clear_wake_sources(void);
 void enable_wake_sources_for_ds2(void);
 

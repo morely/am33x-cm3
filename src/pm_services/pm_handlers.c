@@ -267,6 +267,34 @@ void a8_lp_cmd7_handler(struct cmd_data *data, char use_default_val)
 	/*TODO: wait for power domain state change interrupt from PRCM */
 }
 
+void a8_standby_handler(struct cmd_data *data, char use_default_val)
+{
+	struct deep_sleep_data *local_cmd =
+		(struct deep_sleep_data *)data->data;
+	int mpu_st = 0;
+	int per_st = 0;
+
+	configure_standby_wake_sources
+		(local_cmd->wake_sources, use_default_val);
+
+	/* TODO: Check for valid range */
+	if (!(use_default_val) && (local_cmd->deepsleep_count))
+		configure_deepsleep_count(local_cmd->deepsleep_count);
+	else
+		configure_deepsleep_count(DS_COUNT_DEFAULT);
+
+	per_st = get_pd_per_stctrl_val(3);
+	mpu_st = get_pd_mpu_stctrl_val(3);
+
+	/* MPU power domain state change */
+	pd_state_change(mpu_st, PD_MPU);
+
+	/* PER power domain state change */
+	pd_state_change(per_st, PD_PER);
+
+	mpu_clkdm_sleep();
+}
+
 /* Standalone application handler */
 void a8_standalone_handler(struct cmd_data *data)
 {
@@ -296,6 +324,9 @@ void generic_wake_handler(int wakeup_reason)
 		break;
 	case 0x7:
 		a8_wake_cmd7_handler();	/* DS2 */
+		break;
+	case 0xb:
+		a8_wake_cmdb_handler();	/* Standby */
 		break;
 	case 0xff:
 	default:
@@ -437,4 +468,26 @@ void a8_wake_cmd7_handler(void)
 	__asm("sev");
 
 	clear_wake_sources();
+}
+
+/* Exit Standby mode
+ * MOSC = ON
+ * PD_PER = ON
+ * PD_MPU = OFF
+ */
+void a8_wake_cmdb_handler()
+{
+	int result = 0;
+
+	result = verify_pd_transitions();
+
+	pd_state_restore();
+
+	essential_modules_enable_standby();
+
+	msg_cmd_stat_update(result);
+
+	clear_wake_sources();
+
+	mpu_clkdm_wake();
 }

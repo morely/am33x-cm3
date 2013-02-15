@@ -89,6 +89,29 @@ struct deep_sleep_data ds2_data =  {
 	.reserved 			= 0
 };
 
+struct deep_sleep_data standby_data =  {
+	.mosc_state			= MOSC_ON,
+	.deepsleep_count		= DS_COUNT_DEFAULT,
+	.vdd_mpu_val			= 0,
+
+	.pd_mpu_state			= PD_OFF,
+	.pd_mpu_ram_ret_state		= MEM_BANK_RET_ST_OFF,
+	.pd_mpu_l1_ret_state		= MEM_BANK_RET_ST_OFF,
+	.pd_mpu_l2_ret_state		= MEM_BANK_RET_ST_OFF,
+	.pd_mpu_ram_on_state		= 0,
+
+	.pd_per_state			= PD_ON,
+	.pd_per_icss_mem_ret_state	= 0,
+	.pd_per_mem_ret_state		= 0,
+	.pd_per_ocmc_ret_state		= 0,
+	.pd_per_icss_mem_on_state	= MEM_BANK_ON_ST_ON,
+	.pd_per_mem_on_state		= MEM_BANK_ON_ST_ON,
+	.pd_per_ocmc_on_state		= MEM_BANK_ON_ST_ON,
+
+	.wake_sources			= WAKE_ALL,
+	.reserved			= 0
+};
+
 /* Clear out the global variables here */
 void pm_init(void)
 {
@@ -232,6 +255,13 @@ int essential_modules_enable(void)
 	module_state_change(MODULE_ENABLE, AM335X_CM_WKUP_UART0_CLKCTRL);
 	module_state_change(MODULE_ENABLE, AM335X_CM_PER_TIMER2_CLKCTRL);
 	return 0;
+}
+
+int essential_modules_enable_standby(void)
+{
+	/* Enable only the bare essential modules for standby */
+	module_state_change(MODULE_ENABLE, AM335X_CM_PER_IEEE5000_CLKCTRL);
+	module_state_change(MODULE_ENABLE, AM335X_CM_PER_EMIF_CLKCTRL);
 }
 
 int interconnect_modules_disable(void)
@@ -450,6 +480,15 @@ static int _next_pd_per_stctrl_val(state)
 		v = icss_mem_on_state_change(ds2_data.pd_per_icss_mem_on_state, v);
 		v = per_mem_on_state_change(ds2_data.pd_per_mem_on_state, v);
 		v = ocmc_mem_on_state_change(ds2_data.pd_per_ocmc_on_state, v);
+	} else if (state == 3) {
+		v = per_powerst_change
+				(standby_data.pd_per_state, v);
+		v = icss_mem_on_state_change
+				(standby_data.pd_per_icss_mem_on_state, v);
+		v = per_mem_on_state_change
+				(standby_data.pd_per_mem_on_state, v);
+		v = ocmc_mem_on_state_change
+				(standby_data.pd_per_ocmc_on_state, v);
 	}
 
 	return v;
@@ -480,8 +519,16 @@ static int _next_pd_mpu_stctrl_val(state)
 	} else if (state == 2) {
 		v = mpu_powerst_change(ds2_data.pd_mpu_state, v);
 		v = mpu_ram_on_state_change(ds2_data.pd_mpu_ram_on_state, v);
+	} else if (state == 3) {
+		v = mpu_powerst_change
+			(standby_data.pd_mpu_state, v);
+		v = mpu_ram_ret_state_change
+			(standby_data.pd_mpu_ram_ret_state, v);
+		v = mpu_l1_ret_state_change
+			(standby_data.pd_mpu_l1_ret_state, v);
+		v = mpu_l2_ret_state_change
+			(standby_data.pd_mpu_l2_ret_state, v);
 	}
-
 	return v;
 }
 
@@ -622,6 +669,14 @@ static int check_wdt(int base)
 	}
 
 	return 0;
+}
+
+/*
+ * In standby state we expect only the MPU_WAKE interrupt to come in
+ */
+void configure_standby_wake_sources(int wake_sources, int mod_check)
+{
+	nvic_enable_irq(AM335X_IRQ_MPU_WAKE);
 }
 
 /*
