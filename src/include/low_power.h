@@ -117,12 +117,6 @@ struct pd_per_bits {
 	int	pwrst_shift;
 };
 
-int interconnect_modules_enable(void);
-int interconnect_modules_disable(void);
-int essential_modules_disable(void);
-int essential_modules_enable(void);
-void mpu_disable(void);
-void mpu_enable(void);
 int pd_state_change(int, int);
 void pd_state_restore(int);
 
