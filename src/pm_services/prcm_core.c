@@ -360,7 +360,7 @@ void ds_restore(void)
 		vtp_enable();
 
 		/* XXX: Why is this required here for DDR3? */
-		hwmod_state_change(HWMOD_ENABLE, HWMOD_EMIF);
+		hwmod_enable(HWMOD_EMIF);
 
 		vtt_high();
 
@@ -375,12 +375,12 @@ int a8_i2c_sleep_handler(unsigned short i2c_sleep_offset)
 	unsigned char *dmem = (unsigned char *) DMEM_BASE;
 	int ret = 0;
 
-	hwmod_state_change(HWMOD_ENABLE, HWMOD_I2C0);
+	hwmod_enable(HWMOD_I2C0);
 
 	if (i2c_sleep_offset != 0xffff)
 		ret = i2c_write(dmem + i2c_sleep_offset);
 
-	hwmod_state_change(HWMOD_DISABLE, HWMOD_I2C0);
+	hwmod_disable(HWMOD_I2C0);
 
 	return ret;
 }
@@ -390,12 +390,12 @@ int a8_i2c_wake_handler(unsigned short i2c_wake_offset)
 	unsigned char *dmem = (unsigned char *) DMEM_BASE;
 	int ret = 0;
 
-	hwmod_state_change(HWMOD_ENABLE, HWMOD_I2C0);
+	hwmod_enable(HWMOD_I2C0);
 
 	if (i2c_wake_offset != 0xffff)
 		ret = i2c_write(dmem + i2c_wake_offset);
 
-	hwmod_state_change(HWMOD_DISABLE, HWMOD_I2C0);
+	hwmod_disable(HWMOD_I2C0);
 
 	return ret;
 }

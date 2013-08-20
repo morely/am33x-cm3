@@ -298,7 +298,7 @@ void generic_wake_handler(int wakeup_reason)
 	nvic_enable_irq(53);
 
 	/* Enable MPU only after we are sure that we are done with the wakeup */
-	mpu_enable();
+	hwmod_enable(HWMOD_MPU);
 }
 
 /* Exit RTC mode */
