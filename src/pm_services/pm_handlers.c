@@ -265,6 +265,15 @@ void a8_standby_handler(struct cmd_data *data)
 void a8_idle_handler(struct cmd_data *data)
 {
 	struct deep_sleep_data *local_cmd = &data->data->deep_sleep;
+
+	configure_wake_sources(local_cmd->wake_sources);
+
+	clkdm_sleep(CLKDM_MPU);
+}
+
+void a8_idle_v2_handler(struct cmd_data *data)
+{
+	struct deep_sleep_data *local_cmd = &data->data->deep_sleep;
 	unsigned int per_st;
 	unsigned int mpu_st;
 
@@ -461,12 +470,22 @@ void a8_wake_standby_handler(void)
 	clkdm_wake(CLKDM_MPU);
 }
 
+/* Exit cpuidle
+ * MPU_MPU_CLKCTRL = OFF
+ */
+void a8_wake_idle_handler(void)
+{
+	clear_wake_sources();
+
+	clkdm_wake(CLKDM_MPU);
+}
+
 /* Exit Idle mode
  * MOSC = ON
  * PD_PER = ON
  * PD_MPU = OFF
  */
-void a8_wake_idle_handler(void)
+void a8_wake_idle_v2_handler(void)
 {
 	int result;
 

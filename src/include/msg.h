@@ -62,9 +62,10 @@ enum cmd_ids {
 	CMD_ID_STANDALONE	= 0x9,
 	CMD_ID_STANDBY		= 0xb,
 	CMD_ID_STANDBY_V2	= 0xc,
-	CMD_ID_IDLE		= 0xd,
+	CMD_ID_IDLE_V2		= 0xd,
 	CMD_ID_RESET		= 0xe,
 	CMD_ID_VERSION		= 0xf,
+	CMD_ID_IDLE		= 0x10,
 	CMD_ID_COUNT,
 };
 
