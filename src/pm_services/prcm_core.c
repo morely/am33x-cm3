@@ -154,6 +154,7 @@ void setup_soc(void)
 	clockdomain_init();
 	hwmod_init();
 	powerdomain_init();
+	dpll_init();
 }
 
 /* DeepSleep related */
