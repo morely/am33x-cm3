@@ -52,12 +52,12 @@ void a8_lp_rtc_handler(struct cmd_data *data)
 		interconnect_hwmods_disable();
 
 		/* Disable the clock domains except MPU */
-		clkdm_sleep();
+		clkdms_sleep();
 
 		/* Disable MPU clock domain */
-		mpu_clkdm_sleep();
+		clkdm_sleep(CLKDM_MPU);
 
-		wkup_clkdm_sleep();
+		clkdm_sleep(CLKDM_WKUP);
 
 		/*
 		 * TODO: wait for power domain state change interrupt from
@@ -110,9 +110,9 @@ void a8_lp_ds0_handler(struct cmd_data *data)
 	/* DPLL retention update for PG 2.0 */
 	plls_power_down();
 
-	mpu_clkdm_sleep();
+	clkdm_sleep(CLKDM_MPU);
 
-	clkdm_sleep();
+	clkdms_sleep();
 
 	/* Disable MOSC if defaults are required or if user asked for it */
 	if (local_cmd->mosc_state == MOSC_OFF) {
@@ -131,7 +131,7 @@ void a8_lp_ds0_handler(struct cmd_data *data)
 	}
 
 	/* TODO: wait for power domain state change interrupt from PRCM */
-	wkup_clkdm_sleep();
+	clkdm_sleep(CLKDM_WKUP);
 }
 
 /*
@@ -174,9 +174,9 @@ void a8_lp_ds1_handler(struct cmd_data *data)
 	/* DPLL retention update for PG 2.0 */
 	plls_power_down();
 
-	mpu_clkdm_sleep();
+	clkdm_sleep(CLKDM_MPU);
 
-	wkup_clkdm_sleep();
+	clkdm_sleep(CLKDM_WKUP);
 
 	/* TODO: wait for power domain state change interrupt from PRCM */
 }
@@ -221,7 +221,7 @@ void a8_lp_ds2_handler(struct cmd_data *data)
 	/* DPLL retention update for PG 2.0 */
 	plls_power_down();
 
-	wkup_clkdm_sleep();
+	clkdm_sleep(CLKDM_WKUP);
 
 	/*TODO: wait for power domain state change interrupt from PRCM */
 }
@@ -248,7 +248,7 @@ void a8_standby_handler(struct cmd_data *data)
 	/* MPU power domain state change */
 	pd_state_change(mpu_st, PD_MPU);
 
-	mpu_clkdm_sleep();
+	clkdm_sleep(CLKDM_MPU);
 }
 
 /* Standalone application handler */
@@ -325,9 +325,9 @@ void a8_wake_ds0_handler(void)
 	pd_state_restore(PD_PER);
 	pd_state_restore(PD_MPU);
 
-	wkup_clkdm_wake();
+	clkdm_wake(CLKDM_WKUP);
 
-	clkdm_wake();
+	clkdms_wake();
 
 	plls_power_up();
 
@@ -339,7 +339,7 @@ void a8_wake_ds0_handler(void)
 
 	clear_wake_sources();
 
-	mpu_clkdm_wake();
+	clkdm_wake(CLKDM_MPU);
 }
 
 /*
@@ -357,7 +357,7 @@ void a8_wake_ds1_handler(void)
 	pd_state_restore(PD_PER);
 	pd_state_restore(PD_MPU);
 
-	wkup_clkdm_wake();
+	clkdm_wake(CLKDM_WKUP);
 
 	plls_power_up();
 
@@ -367,7 +367,7 @@ void a8_wake_ds1_handler(void)
 
 	clear_wake_sources();
 
-	mpu_clkdm_wake();
+	clkdm_wake(CLKDM_MPU);
 }
 
 /*
@@ -385,7 +385,7 @@ void a8_wake_ds2_handler(void)
 	pd_state_restore(PD_PER);
 	pd_state_restore(PD_MPU);
 
-	wkup_clkdm_wake();
+	clkdm_wake(CLKDM_WKUP);
 
 	plls_power_up();
 
@@ -416,5 +416,5 @@ void a8_wake_standby_handler(void)
 
 	clear_wake_sources();
 
-	mpu_clkdm_wake();
+	clkdm_wake(CLKDM_MPU);
 }
