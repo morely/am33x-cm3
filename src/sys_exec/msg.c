@@ -109,6 +109,12 @@ struct state_handler cmd_handlers[] = {
 		.needs_trigger = true,
 		.do_ddr = true,
 	},
+	[CMD_ID_IDLE] = {
+		.gp_data = &idle_data,
+		.cmd_handler = a8_idle_handler,
+		.wake_handler = a8_wake_idle_handler,
+		.fast_trigger = true,
+	},
 	[CMD_ID_RESET] = {
 		.cmd_handler = reset_handler,
 	},

@@ -22,5 +22,6 @@ extern union state_data ds0_data_hs;
 extern union state_data ds1_data;
 extern union state_data ds1_data_hs;
 extern union state_data ds2_data;
+extern union state_data idle_data;
 
 #endif
