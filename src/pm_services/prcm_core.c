@@ -138,6 +138,7 @@ void pm_init(void)
 	cmd_global_data.data 	= NULL;
 
 	powerdomain_reset();
+	dpll_reset();
 }
 
 void setup_soc(void)
