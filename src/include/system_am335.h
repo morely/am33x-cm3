@@ -22,11 +22,6 @@ void a8_m3_low_power_sync(int);
 
 void init_m3_state_machine(void);
 
-void trace_init(void);
-void trace_update(void);
-void trace_get_current_pos(void);
-void trace_set_current_pos(void);
-
 int rtc_enable_check(void);
 unsigned int rtc_reg_read(int);
 void rtc_reg_write(unsigned int, int);

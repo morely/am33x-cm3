@@ -10,27 +10,12 @@
  *  software download.
 */
 
-#include <trace.h>
+#ifndef __TRACE_H__
+#define __TRACE_H__
 
-/* TODO: ROM code ate up the trace location. Can we manage without this? */
-void trace_init(void)
-{
+void trace_init(void);
+void trace_update(void);
+void trace_get_current_pos(void);
+void trace_set_current_pos(void);
 
-}
-
-void trace_update(void)
-{
-
-}
-
-/* Use bit-banding here */
-void trace_get_current_pos(void)
-{
-
-}
-
-/* Intended to be called in case of errors/exceptions */
-void trace_set_current_pos(void)
-{
-
-}
+#endif
