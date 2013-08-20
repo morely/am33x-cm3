@@ -54,10 +54,14 @@ enum cmd_ids {
 	CMD_ID_RTC		= 0x1,
 	CMD_ID_RTC_FAST		= 0x2,
 	CMD_ID_DS0		= 0x3,
+	CMD_ID_DS0_V2		= 0x4,
 	CMD_ID_DS1		= 0x5,
+	CMD_ID_DS1_V2		= 0x6,
 	CMD_ID_DS2		= 0x7,
+	CMD_ID_DS2_V2		= 0x8,
 	CMD_ID_STANDALONE	= 0x9,
 	CMD_ID_STANDBY		= 0xb,
+	CMD_ID_STANDBY_V2	= 0xc,
 	CMD_ID_RESET		= 0xe,
 	CMD_ID_VERSION		= 0xf,
 	CMD_ID_COUNT,
@@ -117,6 +121,7 @@ struct state_handler {
 	void (*cmd_handler)(struct cmd_data *data);
 	void (*wake_handler)(void);
 	bool needs_trigger;
+	bool do_ddr;
 };
 
 extern struct cmd_data cmd_global_data;

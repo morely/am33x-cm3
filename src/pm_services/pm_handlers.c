@@ -85,7 +85,8 @@ void a8_lp_ds0_handler(struct cmd_data *data)
 	unsigned int mpu_st;
 	int temp;
 
-	ds_save();
+	if (cmd_handlers[cmd_global_data.cmd_id].do_ddr)
+		ds_save();
 
 	a8_i2c_sleep_handler(data->i2c_sleep_offset);
 
@@ -153,7 +154,8 @@ void a8_lp_ds1_handler(struct cmd_data *data)
 	unsigned int per_st;
 	unsigned int mpu_st;
 
-	ds_save();
+	if (cmd_handlers[cmd_global_data.cmd_id].do_ddr)
+		ds_save();
 
 	a8_i2c_sleep_handler(data->i2c_sleep_offset);
 
@@ -200,7 +202,8 @@ void a8_lp_ds2_handler(struct cmd_data *data)
 	unsigned int per_st;
 	unsigned int mpu_st;
 
-	ds_save();
+	if (cmd_handlers[cmd_global_data.cmd_id].do_ddr)
+		ds_save();
 
 	a8_i2c_sleep_handler(data->i2c_sleep_offset);
 
@@ -238,7 +241,8 @@ void a8_standby_handler(struct cmd_data *data)
 	struct deep_sleep_data *local_cmd = &data->data->deep_sleep;
 	unsigned int mpu_st;
 
-	ds_save();
+	if (cmd_handlers[cmd_global_data.cmd_id].do_ddr)
+		ds_save();
 
 	a8_i2c_sleep_handler(data->i2c_sleep_offset);
 
@@ -285,7 +289,8 @@ void generic_wake_handler(int wakeup_reason)
 
 	enable_master_oscillator();
 
-	ds_restore();
+	if (cmd_handlers[cmd_global_data.cmd_id].do_ddr)
+		ds_restore();
 
 	/* If everything is done, we init things again */
 	/* Flush out NVIC interrupts */

@@ -56,6 +56,14 @@ struct state_handler cmd_handlers[] = {
 		.wake_handler = a8_wake_ds0_handler,
 		.needs_trigger = true,
 	},
+	[CMD_ID_DS0_V2] = {
+		.gp_data = &ds0_data,
+		.hs_data = &ds0_data_hs,
+		.cmd_handler = a8_lp_ds0_handler,
+		.wake_handler = a8_wake_ds0_handler,
+		.needs_trigger = true,
+		.do_ddr = true,
+	},
 	[CMD_ID_DS1] = {
 		.gp_data = &ds1_data,
 		.hs_data = &ds1_data_hs,
@@ -63,11 +71,26 @@ struct state_handler cmd_handlers[] = {
 		.wake_handler = a8_wake_ds1_handler,
 		.needs_trigger = true,
 	},
+	[CMD_ID_DS1_V2] = {
+		.gp_data = &ds1_data,
+		.hs_data = &ds1_data_hs,
+		.cmd_handler = a8_lp_ds1_handler,
+		.wake_handler = a8_wake_ds1_handler,
+		.needs_trigger = true,
+		.do_ddr = true,
+	},
 	[CMD_ID_DS2] = {
 		.gp_data = &ds2_data,
 		.cmd_handler = a8_lp_ds2_handler,
 		.wake_handler = a8_wake_ds2_handler,
 		.needs_trigger = true,
+	},
+	[CMD_ID_DS2_V2] = {
+		.gp_data = &ds2_data,
+		.cmd_handler = a8_lp_ds2_handler,
+		.wake_handler = a8_wake_ds2_handler,
+		.needs_trigger = true,
+		.do_ddr = true,
 	},
 	[CMD_ID_STANDALONE] = {
 		.cmd_handler = a8_standalone_handler,
@@ -78,6 +101,13 @@ struct state_handler cmd_handlers[] = {
 		.cmd_handler = a8_standby_handler,
 		.wake_handler = a8_wake_standby_handler,
 		.needs_trigger = true,
+	},
+	[CMD_ID_STANDBY_V2] = {
+		.gp_data = &standby_data,
+		.cmd_handler = a8_standby_handler,
+		.wake_handler = a8_wake_standby_handler,
+		.needs_trigger = true,
+		.do_ddr = true,
 	},
 	[CMD_ID_RESET] = {
 		.cmd_handler = reset_handler,
