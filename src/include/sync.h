@@ -15,6 +15,7 @@
 
 void a8_notify(int);
 void a8_m3_low_power_sync(int);
+void a8_m3_low_power_fast(int);
 void init_m3_state_machine(void);
 
 #endif

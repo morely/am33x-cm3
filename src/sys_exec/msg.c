@@ -235,3 +235,8 @@ bool msg_cmd_needs_trigger(void)
 {
 	return cmd_handlers[cmd_global_data.cmd_id].needs_trigger;
 }
+
+bool msg_cmd_fast_trigger(void)
+{
+	return cmd_handlers[cmd_global_data.cmd_id].fast_trigger;
+}

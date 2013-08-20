@@ -34,6 +34,15 @@ void a8_m3_low_power_sync(int cmd_stat_value)
 	nvic_enable_irq(CM3_IRQ_PRCM_M3_IRQ2);
 }
 
+void a8_m3_low_power_fast(int cmd_stat_value)
+{
+	msg_cmd_stat_update(cmd_stat_value);
+
+	/* Enable the PRCM interrupt for MPU gated state */
+	nvic_clear_irq(CM3_IRQ_PRCM_M3_IRQ2);
+	nvic_enable_irq(CM3_IRQ_PRCM_M3_IRQ2);
+}
+
 void init_m3_state_machine(void)
 {
 	int i;

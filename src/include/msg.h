@@ -121,6 +121,7 @@ struct state_handler {
 	void (*cmd_handler)(struct cmd_data *data);
 	void (*wake_handler)(void);
 	bool needs_trigger;
+	bool fast_trigger;
 	bool do_ddr;
 };
 
@@ -141,6 +142,7 @@ void msg_write(unsigned int, char);
 void msg_cmd_read_id(void);
 bool msg_cmd_is_valid(void);
 bool msg_cmd_needs_trigger(void);
+bool msg_cmd_fast_trigger(void);
 void msg_cmd_dispatcher(void);
 void msg_cmd_stat_update(int);
 void msg_cmd_wakeup_reason_update(int);
