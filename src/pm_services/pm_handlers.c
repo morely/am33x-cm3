@@ -27,6 +27,7 @@
 #include <pm_state_data.h>
 #include <pm_handlers.h>
 #include <trace.h>
+#include <rtc.h>
 
 /* Debug info */
 static bool halt_on_resume;
