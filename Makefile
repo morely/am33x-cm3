@@ -16,7 +16,7 @@ INCLUDES = $(SRCDIR)/include
 CFLAGS =-mcpu=cortex-m3 -mthumb -nostdlib -Wall -Wundef \
 	-Werror-implicit-function-declaration -Wstrict-prototypes \
 	-Wdeclaration-after-statement -fno-delete-null-pointer-checks \
-	-fno-strict-overflow  -g -I$(INCLUDES) -O2
+	-Wempty-body -fno-strict-overflow  -g -I$(INCLUDES) -O2
 LDFLAGS =-nostartfiles -fno-exceptions -Tfirmware.ld
 
 EXECUTABLE=am335x-pm-firmware.elf

@@ -178,7 +178,7 @@ int verify_pd_transitions(void)
 	int result;
 
 	result = verify_pd_transition(PD_MPU);
-	if (result == CMD_STAT_FAIL);
+	if (result == CMD_STAT_FAIL)
 		return result;
 
 	return verify_pd_transition(PD_PER);
