@@ -26,12 +26,12 @@ int vtt_gpio_pin;
 
 static union state_data custom_state_data;
 
-static void version_handler(struct cmd_data *data)
+static void a8_version_handler(struct cmd_data *data)
 {
 	m3_firmware_version();
 }
 
-static void reset_handler(struct cmd_data *data)
+static void a8_reset_handler(struct cmd_data *data)
 {
 	init_m3_state_machine();
 }
@@ -122,10 +122,10 @@ struct state_handler cmd_handlers[] = {
 		.fast_trigger = true,
 	},
 	[CMD_ID_RESET] = {
-		.cmd_handler = reset_handler,
+		.cmd_handler = a8_reset_handler,
 	},
 	[CMD_ID_VERSION] = {
-		.cmd_handler = version_handler,
+		.cmd_handler = a8_version_handler,
 	},
 };
 
